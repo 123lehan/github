@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+            }
+        }
+    }
+    
+    post {
+        always {
+            emailext(
+                to: 'developer@example.com',
+                subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${currentBuild.result})",
+                body: """
+                Build completed.
+                Status: ${currentBuild.result}
+                Check the Jenkins console output for details.
+                """,
+                attachmentsPattern: '**/target/*.log', // Attach specific log files
+                compressLog: true // Compress the log before sending
+            )
+        }
+    }
+}
