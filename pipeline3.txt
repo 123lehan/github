@@ -22,7 +22,7 @@ pipeline {
     post {
         always {
             emailext(
-                to: 'lehan.andrahennadi.gmailcom',
+                to: 'lehan.andrahennadi@gmailcom',
                 subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${currentBuild.result})",
                 body: """
                 Build completed.
